@@ -14,7 +14,7 @@ class Core {
         $url = $this->getUrl();
 
         // Look in Controllers for first value
-        if(file_exists('../app/controllers/' . ucwords($url[0]) . '.php')){
+        if(!empty($url) &&  file_exists('../app/controllers/' . ucwords($url[0]) . '.php')){
 
             // if exists set as controller
             $this->currentController = ucwords($url[0]);
@@ -51,11 +51,18 @@ class Core {
     }
 
     public function getUrl() {
-        if( isset($_GET['url']) ){
+        if (isset($_GET['url'])) {
+
             $url = rtrim($_GET['url'], '/');
-            $url = filter_var($url , FILTER_SANITIZE_URL);
-            $url = explode('/' , $url);
+
+            $url = filter_var($url, FILTER_SANITIZE_URL);
+
+            $url = explode('/', $url);
+
             return $url;
+        } else {
+
+            return [];
         }
     }
 }
